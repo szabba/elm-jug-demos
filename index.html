@@ -35,8 +35,6 @@
         </div>
     </div>
 
-    <!-- TODO: add Counter demo -->
-    <script src="_compile/src/Stoper.elm"></script>
     <script>
         let hideAllDemos = () => {
             let demos = document.getElementById('demos')
@@ -56,6 +54,8 @@
         let menuItems = document.querySelectorAll('#navbar button')
         menuItems.forEach(menuItem => menuItem.addEventListener('click', showSelectedDemo))
     </script>
+
+    <script src="_compile/src/Stoper.elm"></script>
     <script>
         let stoperNode = document.getElementById('stoper')
         Elm.Stoper.embed(stoperNode)
