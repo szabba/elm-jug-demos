@@ -8,6 +8,11 @@ To install the dev tools, run
 $ yarn install
 ```
 
+To install the elm dependencies, run
+```bash
+$ yarn run elm package install
+```
+
 To view the demos, run
 ```bash
 $ yarn run elm reactor
