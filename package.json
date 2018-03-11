@@ -1,0 +1,7 @@
+{
+  "name": "elm-jug-demos",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Karol Marcjan <karol.marcjan@gmail.com>",
+  "license": "MIT"
+}
