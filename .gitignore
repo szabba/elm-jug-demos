@@ -1,0 +1,7 @@
+dist/
+node_modules/
+elm-stuff/
+
+yarn-error.log
+
+.vscode/
