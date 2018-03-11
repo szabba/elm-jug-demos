@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Elm Demos</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        #navbar li {
+            display: inline-block;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Elm Demos</h1>
+    <div id="container">
+        <ul id="navbar">
+            <li>
+                <button class="btn" data-demo="counter">Counter</a>
+            </li>
+            <li>
+                <button class="btn" data-demo="stoper">Stoper</a>
+            </li>
+        </ul>
+        <div id="demos">
+            <div id="welcome-msg"> Select one of the demos! </div>
+            <div id="counter" class="hidden"></div>
+            <div id="stoper" class="hidden"></div>
+        </div>
+    </div>
+
+    <!-- TODO: add Counter demo -->
+    <script src="_compile/src/Stoper.elm"></script>
+    <script>
+        let hideAllDemos = () => {
+            let demos = document.getElementById('demos')
+            demos.childNodes.forEach(node => {
+                if (node.classList) {
+                    node.classList.add('hidden')
+                }
+            })
+        }
+        let showSelectedDemo = (evt) => {
+            hideAllDemos()
+            let menuItem = evt.target
+            let demoID = menuItem.dataset.demo
+            let demo = document.getElementById(demoID)
+            demo.classList.remove('hidden')
+        }
+        let menuItems = document.querySelectorAll('#navbar button')
+        menuItems.forEach(menuItem => menuItem.addEventListener('click', showSelectedDemo))
+    </script>
+    <script>
+        let stoperNode = document.getElementById('stoper')
+        Elm.Stoper.embed(stoperNode)
+    </script>
+
+</body>
+
+</html>
