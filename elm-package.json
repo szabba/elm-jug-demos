@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
-    "summary": "helpful summary of your project, less than 80 characters",
-    "repository": "https://github.com/user/project.git",
+    "summary": "Demos for the Zielona Góra Java User Group presentation on Elm",
+    "repository": "https://github.com/szabba/elm-jug-demos.git",
     "license": "BSD3",
     "source-directories": [
         "./src"
