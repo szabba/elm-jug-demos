@@ -22,7 +22,7 @@
     <div id="container">
         <ul id="navbar">
             <li>
-                <button class="btn" data-demo="counter">Counter</a>
+                <button class="btn" data-demo="values">Values</a>
             </li>
             <li>
                 <button class="btn" data-demo="stoper">Stoper</a>
@@ -30,7 +30,7 @@
         </ul>
         <div id="demos">
             <div id="welcome-msg"> Select one of the demos! </div>
-            <div id="counter" class="hidden"></div>
+            <div id="values" class="hidden"></div>
             <div id="stoper" class="hidden"></div>
         </div>
     </div>
@@ -53,6 +53,12 @@
         }
         let menuItems = document.querySelectorAll('#navbar button')
         menuItems.forEach(menuItem => menuItem.addEventListener('click', showSelectedDemo))
+    </script>
+
+    <script src="_compile/src/Values.elm"></script>
+    <script>
+        let valuesNode = document.getElementById('values')
+        Elm.Values.embed(valuesNode)
     </script>
 
     <script src="_compile/src/Stoper.elm"></script>

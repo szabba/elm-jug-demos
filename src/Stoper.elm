@@ -1,9 +1,9 @@
 module Stoper exposing (main)
 
 import Bootstrap.Button as Button
-import Bootstrap.CDN as CDN
 import Bootstrap.Card as Card
 import Bootstrap.Card.Block as CardBlock
+import Bootstrap.CDN as CDN
 import Bootstrap.Grid as Grid
 import Html as H exposing (Html)
 import Html.Attributes as HA

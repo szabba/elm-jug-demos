@@ -21,10 +21,7 @@ and visit [`http://localhost:8000/index.html`](http://localhost:8000/index.html)
 
 # To do
 
-* [ ] Write the Game of Life example.
-* [ ] Cover the Game of Life example with tests.
 * [x] Write the Stoper example.
-* [ ] Cover the Stoper example with tests.
 * [ ] Write the Values example.
     * Initially, the page contains a button with the question "What is best in
       life?".
