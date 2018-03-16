@@ -10,8 +10,6 @@ import Html as H exposing (Attribute, Html)
 import Html.Attributes as HA
 import Html.Events as HE
 import Set exposing (Set)
-import Validate exposing (Validator)
-import Validate.Custom as Validate
 
 
 main : Program Never Model Msg
@@ -55,7 +53,7 @@ view model =
                 whatIsBest
 
             BestIs (Answer answer) ->
-                H.text <| toString answer
+                bestIs answer
 
             Thinking answer dirtyAnswer ->
                 thinkingSpace dirtyAnswer
@@ -78,6 +76,33 @@ whatIsBest =
         [ H.text "What is best in life?" ]
 
 
+bestIs : Dict String Int -> Html Msg
+bestIs weights =
+    H.div []
+        [ viewWeights weights
+        , H.button [ HA.class "btn btn-primary", HE.onClick StartThinking ]
+            [ H.text "Are these truly best?" ]
+        ]
+
+
+viewWeights : Dict String comparable -> Html msg
+viewWeights weights =
+    weights
+        |> Dict.toList
+        |> List.sortBy Tuple.second
+        |> List.map viewWeight
+        |> H.div []
+
+
+viewWeight : ( String, a ) -> Html msg
+viewWeight ( value, weight ) =
+    H.p []
+        [ H.span [ HA.style [ ( "display", "inline-block" ), ( "width", "10em" ) ] ]
+            [ H.text value ]
+        , H.text <| toString weight
+        ]
+
+
 thinkingSpace : Dict String String -> Html Msg
 thinkingSpace weights =
     Card.config []
@@ -88,6 +113,7 @@ thinkingSpace weights =
         |> Card.view
 
 
+sliders : Dict String String -> Html Msg
 sliders weights =
     weights
         |> Dict.map valueBox
