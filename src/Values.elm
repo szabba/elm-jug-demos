@@ -266,7 +266,7 @@ update : Msg -> Model -> Model
 update msg model =
     case ( msg, model ) of
         ( StartThinking, BestIs answer ) ->
-            Thinking answer Dict.empty
+            Thinking answer (toWeights answer)
 
         ( AddValue value, Thinking answer weights ) ->
             let
@@ -297,6 +297,16 @@ update msg model =
 
         _ ->
             model
+
+
+toWeights : Answer -> Dict String String
+toWeights answer =
+    case answer of
+        NoAnswer ->
+            Dict.empty
+
+        Answer weights ->
+            weights |> Dict.map (\_ weight -> toString weight)
 
 
 values : Set String
