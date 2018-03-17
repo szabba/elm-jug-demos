@@ -21,71 +21,51 @@ main =
         }
 
 
-type Model
-    = BestIs Answer
-    | Thinking Answer (Dict String String)
-
-
-type Answer
-    = NoAnswer
-    | Answer (Dict String Int)
+type alias Model =
+    Dict String String
 
 
 type Msg
-    = StartThinking
-    | AddValue String
+    = AddValue String
     | SetValue String String
     | RemoveValue String
-    | Cancel
-    | AcceptAnswer (Dict String Int)
 
 
 init : Model
 init =
-    BestIs NoAnswer
+    Dict.empty
 
 
 view : Model -> Html Msg
 view model =
-    withWrapper
-        [ case model of
-            BestIs NoAnswer ->
-                whatIsBest
-
-            BestIs (Answer answer) ->
-                bestIs answer
-
-            Thinking answer dirtyAnswer ->
-                thinkingSpace dirtyAnswer
-        ]
+    withWrapper <|
+        thinkingSpace model
 
 
-withWrapper : List (Html Msg) -> Html Msg
-withWrapper elements =
+withWrapper : Html Msg -> Html Msg
+withWrapper child =
     Grid.container []
         [ CDN.stylesheet
         , Grid.row []
-            [ Grid.col [] elements ]
+            [ Grid.col [] [ child ] ]
         ]
 
 
-whatIsBest : Html Msg
-whatIsBest =
-    Button.button
-        [ Button.onClick StartThinking, Button.primary ]
-        [ H.text "What is best in life?" ]
+thinkingSpace : Model -> Html Msg
+thinkingSpace weights =
+    Card.config []
+        |> Card.block []
+            [ CardBlock.text []
+                [ H.text "What is best in life?" ]
+            ]
+        |> Card.block [] [ CardBlock.text [] [ sumError weights ] ]
+        |> Card.block [] [ CardBlock.text [] [ sliders weights ] ]
+        |> viewValueSelector weights
+        |> Card.block [] [ CardBlock.text [] [ buttons weights ] ]
+        |> Card.view
 
 
-bestIs : Dict String Int -> Html Msg
-bestIs weights =
-    H.div []
-        [ viewWeights weights
-        , H.button [ HA.class "btn btn-primary", HE.onClick StartThinking ]
-            [ H.text "Are these truly best?" ]
-        ]
-
-
-viewWeights : Dict String comparable -> Html msg
+viewWeights : Model -> Html Msg
 viewWeights weights =
     weights
         |> Dict.toList
@@ -94,7 +74,7 @@ viewWeights weights =
         |> H.div []
 
 
-viewWeight : ( String, a ) -> Html msg
+viewWeight : ( String, String ) -> Html Msg
 viewWeight ( value, weight ) =
     H.p []
         [ H.span [ HA.style [ ( "display", "inline-block" ), ( "width", "10em" ) ] ]
@@ -103,17 +83,7 @@ viewWeight ( value, weight ) =
         ]
 
 
-thinkingSpace : Dict String String -> Html Msg
-thinkingSpace weights =
-    Card.config []
-        |> Card.block [] [ CardBlock.text [] [ sumError weights ] ]
-        |> Card.block [] [ CardBlock.text [] [ sliders weights ] ]
-        |> viewValueSelector weights
-        |> Card.block [] [ CardBlock.text [] [ buttons weights ] ]
-        |> Card.view
-
-
-sliders : Dict String String -> Html Msg
+sliders : Model -> Html Msg
 sliders weights =
     weights
         |> Dict.map valueBox
@@ -122,7 +92,7 @@ sliders weights =
         |> H.div []
 
 
-sumError : Dict String String -> Html Msg
+sumError : Model -> Html Msg
 sumError weights =
     let
         sum =
@@ -135,29 +105,23 @@ sumError weights =
         H.text ""
 
 
-buttons : Dict String String -> Html Msg
-buttons weights =
-    let
-        currentAnswer =
-            weights
-                |> Dict.toList
-                |> List.filterMap (\( k, v ) -> v |> String.toInt |> Result.map ((,) k) |> Result.toMaybe)
-                |> Dict.fromList
-    in
+buttons : Model -> Html Msg
+buttons model =
     H.p []
         [ Button.button
-            [ Button.onClick Cancel ]
+            [ Button.danger ]
             [ H.text "Cancel" ]
         , Button.button
-            [ Button.disabled (weightsSum weights /= 100)
-            , Button.primary
-            , Button.onClick (AcceptAnswer currentAnswer)
+            [ if weightsSum model == 100 then
+                Button.primary
+              else
+                Button.disabled True
             ]
             [ H.text "Accept" ]
         ]
 
 
-weightsSum : Dict String String -> Int
+weightsSum : Model -> Int
 weightsSum weights =
     weights
         |> Dict.values
@@ -264,49 +228,16 @@ valueOption value =
 
 update : Msg -> Model -> Model
 update msg model =
-    case ( msg, model ) of
-        ( StartThinking, BestIs answer ) ->
-            Thinking answer (toWeights answer)
-
-        ( AddValue value, Thinking answer weights ) ->
-            let
-                newWeights =
-                    weights |> Dict.insert value "1"
-            in
-            Thinking answer newWeights
-
-        ( SetValue value weight, Thinking answer weights ) ->
-            let
-                newWeights =
-                    weights |> Dict.insert value weight
-            in
-            Thinking answer newWeights
-
-        ( RemoveValue value, Thinking answer weights ) ->
-            let
-                newWeights =
-                    weights |> Dict.remove value
-            in
-            Thinking answer newWeights
-
-        ( AcceptAnswer answer, _ ) ->
-            BestIs <| Answer answer
-
-        ( Cancel, Thinking answer _ ) ->
-            BestIs answer
-
-        _ ->
+    case msg of
+        AddValue value ->
             model
+                |> Dict.insert value "1"
 
+        SetValue value weight ->
+            model |> Dict.insert value weight
 
-toWeights : Answer -> Dict String String
-toWeights answer =
-    case answer of
-        NoAnswer ->
-            Dict.empty
-
-        Answer weights ->
-            weights |> Dict.map (\_ weight -> toString weight)
+        RemoveValue value ->
+            model |> Dict.remove value
 
 
 values : Set String
