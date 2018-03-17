@@ -29,6 +29,7 @@ type Msg
     = AddValue String
     | SetValue String String
     | RemoveValue String
+    | Reset
 
 
 init : Model
@@ -109,8 +110,14 @@ buttons : Model -> Html Msg
 buttons model =
     H.p []
         [ Button.button
-            [ Button.danger ]
-            [ H.text "Cancel" ]
+            (if Dict.isEmpty model then
+                [ Button.disabled True ]
+             else
+                [ Button.onClick Reset
+                , Button.danger
+                ]
+            )
+            [ H.text "Reset" ]
         , Button.button
             [ if weightsSum model == 100 then
                 Button.primary
@@ -238,6 +245,9 @@ update msg model =
 
         RemoveValue value ->
             model |> Dict.remove value
+
+        Reset ->
+            init
 
 
 values : Set String
