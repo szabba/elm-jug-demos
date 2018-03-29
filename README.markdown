@@ -3,7 +3,9 @@
 This is a series of demos for the upcoming Zielona Góra Java User Group meeting
 about Elm.
 
-# Seeing the demos in yarn
+You can also go see the [slides](https://docs.google.com/presentation/d/1LWywfnX3JquG6bcEfJgi3pgj7zNdefTvUfPIwYxodXA/edit?usp=sharing).
+
+# Seeing the demos with yarn
 
 ```bash
 $ yarn install
