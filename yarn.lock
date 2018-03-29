@@ -340,7 +340,7 @@ ecc-jsbn@~0.1.1:
   dependencies:
     jsbn "~0.1.0"
 
-elm-format@^0.7.1-beta:
+elm-format@0.7.0-exp:
   version "0.7.0-exp"
   resolved "https://registry.yarnpkg.com/elm-format/-/elm-format-0.7.0-exp.tgz#75b9d9f3f0b67195b44e804fce5a6be0f45af408"
   dependencies:
