@@ -55,13 +55,13 @@
         menuItems.forEach(menuItem => menuItem.addEventListener('click', showSelectedDemo))
     </script>
 
-    <script src="_compile/src/Values.elm"></script>
+    <script src="dist/values.js"></script>
     <script>
         let valuesNode = document.getElementById('values')
         Elm.Values.embed(valuesNode)
     </script>
 
-    <script src="_compile/src/Stoper.elm"></script>
+    <script src="dist/stoper.js"></script>
     <script>
         let stoperNode = document.getElementById('stoper')
         Elm.Stoper.embed(stoperNode)

@@ -3,23 +3,24 @@
 This is a series of demos for the upcoming Zielona Góra Java User Group meeting
 about Elm.
 
-To install the dev tools, run
+# Seeing the demos in yarn
+
 ```bash
 $ yarn install
+$ yarn run elm:install
+$ yarn run elm:compile
+$ yarn start
 ```
 
-To install the elm dependencies, run
-```bash
-$ yarn run elm package install
-```
-
-To view the demos, run
-```bash
-$ yarn run elm reactor
-```
 and visit [`http://localhost:8000/index.html`](http://localhost:8000/index.html).
 
-# To do
+# Seeing the demos with npm
 
-* [ ] Add a demo for tests.
-* [ ] Add a demo for ports?
+```bash
+$ npm install
+$ npm run elm:install
+$ npm run elm:compile
+$ npm start
+```
+
+and visit [`http://localhost:8000/index.html`](http://localhost:8000/index.html).
